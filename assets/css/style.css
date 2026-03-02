@@ -1,0 +1,77 @@
+/*
+ * Custom CSS untuk Proxmoxer Client Plugin
+ * Menggunakan Tailwind CSS dengan custom animations dan effects
+ */
+
+/* Custom animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in effect */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Message show animation */
+#message.show {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Card hover effect */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Pulse animation untuk button */
+@keyframes pulse-shadow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+}
+
+.btn-pulse:active {
+    animation: pulse-shadow 0.5s;
+}
+
+/* Smooth transitions */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive helpers */
+@media (max-width: 768px) {
+    .card-hover:hover {
+        transform: none;
+    }
+}
+
+

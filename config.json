@@ -1,0 +1,6 @@
+{
+  "name": "Proxmoxer Client",
+  "route": "/admin/plugins/proxmoxer",
+  "config": null
+}
+
