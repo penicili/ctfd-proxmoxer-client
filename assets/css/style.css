@@ -1,9 +1,8 @@
 /*
  * Custom CSS untuk Proxmoxer Client Plugin
- * Menggunakan Tailwind CSS dengan custom animations dan effects
  */
 
-/* Custom animations */
+/* Fade in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -15,63 +14,31 @@
     }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Fade in effect */
 .fade-in {
     animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Message show animation */
-#message.show {
-    animation: fadeIn 0.3s ease-in-out;
+/* Tailwind utilities untuk Bootstrap compatibility */
+.text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
 }
 
-/* Card hover effect */
-.card-hover {
-    transition: all 0.3s ease;
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
 }
 
-.card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+.text-gray-700 {
+    color: #4a5568;
 }
 
-/* Pulse animation untuk button */
-@keyframes pulse-shadow {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-    }
-    50% {
-        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-    }
+.text-blue-600 {
+    color: #3182ce;
 }
 
-.btn-pulse:active {
-    animation: pulse-shadow 0.5s;
-}
-
-/* Smooth transitions */
-* {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* Responsive helpers */
-@media (max-width: 768px) {
-    .card-hover:hover {
-        transform: none;
-    }
+.opacity-50 {
+    opacity: 0.5;
 }
 
 
