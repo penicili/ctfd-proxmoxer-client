@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Active Deployments</h5>
+    <div class="d-flex align-items-center gap-2">
+        <select class="form-control form-control-sm mr-2" id="filter-status" style="width:auto;">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="creating">Creating</option>
+            <option value="running">Running</option>
+            <option value="stopped">Stopped</option>
+            <option value="error">Error</option>
+            <option value="terminated">Terminated</option>
+        </select>
+        <button class="btn btn-outline-secondary btn-sm" id="btn-refresh-monitoring">
+            &#8635; Refresh
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0" id="monitoring-table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Team</th>
+                    <th>Level</th>
+                    <th>VM ID</th>
+                    <th>IP Address</th>
+                    <th>Status</th>
+                    <th>Flag Submitted</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="monitoring-tbody">
+                <tr>
+                    <td colspan="9" class="text-center text-muted py-4">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal: Challenge Detail -->
+<div class="modal fade" id="modalChallengeDetail" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Challenge Detail</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm table-borderless" id="detail-table">
+                    <tr><td class="text-muted">Challenge ID</td><td id="detail-id">—</td></tr>
+                    <tr><td class="text-muted">Team</td><td id="detail-team">—</td></tr>
+                    <tr><td class="text-muted">Level</td><td id="detail-level">—</td></tr>
+                    <tr><td class="text-muted">VM ID</td><td id="detail-vm-id">—</td></tr>
+                    <tr><td class="text-muted">VM Name</td><td id="detail-vm-name">—</td></tr>
+                    <tr><td class="text-muted">IP Address</td><td id="detail-vm-ip">—</td></tr>
+                    <tr><td class="text-muted">Status</td><td id="detail-status">—</td></tr>
+                    <tr><td class="text-muted">Flag</td><td><code id="detail-flag">—</code></td></tr>
+                    <tr><td class="text-muted">Flag Submitted</td><td id="detail-flag-submitted">—</td></tr>
+                    <tr><td class="text-muted">Created At</td><td id="detail-created-at">—</td></tr>
+                    <tr><td class="text-muted">Started At</td><td id="detail-started-at">—</td></tr>
+                    <tr id="detail-error-row" class="d-none">
+                        <td class="text-muted">Error</td>
+                        <td class="text-danger" id="detail-error">—</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btn-terminate-from-detail">
+                    Terminate VM
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Confirm Terminate -->
+<div class="modal fade" id="modalConfirmTerminate" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Terminate</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Terminate VM for <strong id="confirm-team-name">this team</strong>? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btn-confirm-terminate">Terminate</button>
+            </div>
+        </div>
+    </div>
+</div>

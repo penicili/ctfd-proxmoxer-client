@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Deploy New Challenge</h5>
+            </div>
+            <div class="card-body">
+                <form id="form-deploy">
+
+                    <div class="form-group">
+                        <label>Level <span class="text-danger">*</span></label>
+                        <select class="form-control" name="level_id" id="deploy-level-select" required>
+                            <option value="">-- Select Level --</option>
+                        </select>
+                        <small class="form-text text-muted" id="deploy-level-info"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Team Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="team_name" placeholder="e.g. TeamAlpha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="toggle-vm-config">
+                            <label class="custom-control-label" for="toggle-vm-config">Custom VM Config</label>
+                        </div>
+                    </div>
+
+                    <div id="vm-config-fields" class="d-none">
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label>Memory (MB)</label>
+                                <input type="number" class="form-control" name="memory" placeholder="512" min="256">
+                            </div>
+                            <div class="form-group col-6">
+                                <label>CPU Cores</label>
+                                <input type="number" class="form-control" name="cores" placeholder="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="deploy-alert" class="alert d-none"></div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-deploy">
+                        Deploy VM
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deploy Result Panel -->
+    <div class="col-md-6">
+        <div class="card" id="deploy-result-card" style="display:none !important;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Deployment Status</h5>
+                <span id="deploy-status-badge" class="badge badge-secondary">pending</span>
+            </div>
+            <div class="card-body">
+                <div id="deploy-progress" class="text-center py-3">
+                    <div class="spinner-border text-primary mb-2" role="status"></div>
+                    <p class="mb-0 text-muted">Provisioning VM, please wait...</p>
+                </div>
+                <div id="deploy-success-info" class="d-none">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted" style="width:40%">Challenge ID</td>
+                            <td><strong id="result-challenge-id">—</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Team</td>
+                            <td><strong id="result-team">—</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">VM ID</td>
+                            <td><strong id="result-vm-id">—</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">IP Address</td>
+                            <td><strong id="result-vm-ip">—</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Flag</td>
+                            <td>
+                                <code id="result-flag">—</code>
+                                <button class="btn btn-sm btn-link p-0 ml-1" id="btn-copy-flag" title="Copy flag">&#128203;</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="deploy-error-info" class="d-none">
+                    <div class="alert alert-danger mb-0">
+                        <strong>Deployment failed</strong>
+                        <p class="mb-0 mt-1" id="result-error-message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

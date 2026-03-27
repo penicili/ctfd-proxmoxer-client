@@ -1,44 +1,29 @@
-/*
- * Custom CSS untuk Proxmoxer Client Plugin
- */
+/* Proxmoxer Plugin — Custom Styles */
 
-/* Fade in animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Status badges */
+.badge-pending    { background-color: #6c757d; color: #fff; }
+.badge-creating   { background-color: #17a2b8; color: #fff; }
+.badge-running    { background-color: #28a745; color: #fff; }
+.badge-stopped    { background-color: #ffc107; color: #212529; }
+.badge-error      { background-color: #dc3545; color: #fff; }
+.badge-terminating{ background-color: #fd7e14; color: #fff; }
+.badge-terminated { background-color: #343a40; color: #fff; }
+
+/* Difficulty badges */
+.badge-easy   { background-color: #28a745; color: #fff; }
+.badge-medium { background-color: #ffc107; color: #212529; }
+.badge-hard   { background-color: #dc3545; color: #fff; }
+
+/* Health badge in header */
+#health-badge { font-size: 0.85rem; }
+
+/* Deploy result card animation */
+#deploy-result-card {
+    transition: all 0.3s ease;
 }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
+/* Table improvements */
+.table td { vertical-align: middle; }
 
-/* Tailwind utilities untuk Bootstrap compatibility */
-.text-4xl {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-}
-
-.text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-}
-
-.text-gray-700 {
-    color: #4a5568;
-}
-
-.text-blue-600 {
-    color: #3182ce;
-}
-
-.opacity-50 {
-    opacity: 0.5;
-}
-
-
+/* Copy flag button */
+#btn-copy-flag { font-size: 0.8rem; line-height: 1; }

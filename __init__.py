@@ -1,6 +1,6 @@
 """
-CTFd Proxmoxer Client Plugin - Hello World Version
-Simple plugin to demonstrate CTFd plugin architecture
+CTFd Proxmoxer Client Plugin
+Admin interface untuk orkestrasi VM challenge via FastAPI backend.
 """
 
 from flask import Blueprint, render_template

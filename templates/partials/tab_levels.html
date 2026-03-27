@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Level List</h5>
+    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCreateLevel">
+        + New Level
+    </button>
+</div>
+
+<!-- Levels Table -->
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0" id="levels-table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Difficulty</th>
+                    <th>Points</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="levels-tbody">
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal: Create Level -->
+<div class="modal fade" id="modalCreateLevel" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Level</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-create-level">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" name="category" required>
+                            <option value="">-- Select --</option>
+                            <option value="A01:2021-Broken Access Control">A01 - Broken Access Control</option>
+                            <option value="A02:2021-Cryptographic Failures">A02 - Cryptographic Failures</option>
+                            <option value="A03:2021-Injection">A03 - Injection</option>
+                            <option value="A04:2021-Insecure Design">A04 - Insecure Design</option>
+                            <option value="A05:2021-Security Misconfiguration">A05 - Security Misconfiguration</option>
+                            <option value="A06:2021-Vulnerable and Outdated Components">A06 - Vulnerable Components</option>
+                            <option value="A07:2021-Identification and Authentication Failures">A07 - Auth Failures</option>
+                            <option value="A08:2021-Software and Data Integrity Failures">A08 - Integrity Failures</option>
+                            <option value="A09:2021-Security Logging and Monitoring Failures">A09 - Logging Failures</option>
+                            <option value="A10:2021-Server-Side Request Forgery (SSRF)">A10 - SSRF</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <select class="form-control" name="difficulty" required>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Points</label>
+                        <input type="number" class="form-control" name="points" value="100" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Template URL / Name</label>
+                        <input type="text" class="form-control" name="template_url" placeholder="e.g. ubuntu-22-sqli">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+                </form>
+                <div id="create-level-error" class="alert alert-danger d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btn-save-level">Save Level</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Edit Level -->
+<div class="modal fade" id="modalEditLevel" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Level</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-edit-level">
+                    <input type="hidden" name="id">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" name="category" required>
+                            <option value="A01:2021-Broken Access Control">A01 - Broken Access Control</option>
+                            <option value="A02:2021-Cryptographic Failures">A02 - Cryptographic Failures</option>
+                            <option value="A03:2021-Injection">A03 - Injection</option>
+                            <option value="A04:2021-Insecure Design">A04 - Insecure Design</option>
+                            <option value="A05:2021-Security Misconfiguration">A05 - Security Misconfiguration</option>
+                            <option value="A06:2021-Vulnerable and Outdated Components">A06 - Vulnerable Components</option>
+                            <option value="A07:2021-Identification and Authentication Failures">A07 - Auth Failures</option>
+                            <option value="A08:2021-Software and Data Integrity Failures">A08 - Integrity Failures</option>
+                            <option value="A09:2021-Security Logging and Monitoring Failures">A09 - Logging Failures</option>
+                            <option value="A10:2021-Server-Side Request Forgery (SSRF)">A10 - SSRF</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <select class="form-control" name="difficulty" required>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Points</label>
+                        <input type="number" class="form-control" name="points" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Template URL / Name</label>
+                        <input type="text" class="form-control" name="template_url">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+                </form>
+                <div id="edit-level-error" class="alert alert-danger d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btn-update-level">Update Level</button>
+            </div>
+        </div>
+    </div>
+</div>
