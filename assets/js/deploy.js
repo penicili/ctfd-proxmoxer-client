@@ -197,7 +197,7 @@ function showDeploySuccess(data, ctfdId, warning = null) {
     document.getElementById('result-team').textContent         = data.team;
     document.getElementById('result-vm-id').textContent        = data.vm_id  || '—';
     document.getElementById('result-vm-ip').textContent        = data.vm_ip  || '—';
-    document.getElementById('result-flag').textContent         = data.flag   || '—';
+    // Flag tidak ditampilkan ke admin — hanya di-inject ke VM
 
     if (warning) {
         const alertEl = document.getElementById('deploy-alert');
@@ -230,17 +230,12 @@ function resetDeployForm() {
     btn.textContent = 'Deploy VM';
 }
 
-// Copy flag
-document.getElementById('btn-copy-flag')?.addEventListener('click', () => {
-    navigator.clipboard.writeText(document.getElementById('result-flag').textContent).then(() => {
-        document.getElementById('btn-copy-flag').textContent = '✓';
-        setTimeout(() => { document.getElementById('btn-copy-flag').innerHTML = '&#128203;'; }, 1500);
-    });
-});
+// Copy flag — disabled, flag tidak ditampilkan ke admin
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-document.getElementById('deploy-tab')?.addEventListener('shown.bs.tab', () => {
+// Load data saat tab Deploy diklik
+document.getElementById('deploy-tab')?.addEventListener('click', () => {
     loadLevelsForDeploy();
     loadTeamsForDeploy();
 });

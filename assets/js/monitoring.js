@@ -29,10 +29,6 @@ function renderMonitoringTable(challenges) {
             <td>${c.vm_id || '—'}</td>
             <td>${c.vm_ip || '—'}</td>
             <td>${statusBadge(c.deployment_status || 'unknown')}</td>
-            <td>${c.flag_submitted
-                ? '<span class="badge badge-success">Yes</span>'
-                : '<span class="badge badge-secondary">No</span>'}
-            </td>
             <td><small>${formatDate(c.created_at)}</small></td>
             <td>
                 <button class="btn btn-sm btn-outline-info mr-1" onclick="openChallengeDetail(${c.id})">Detail</button>
@@ -74,8 +70,7 @@ async function openChallengeDetail(id) {
         document.getElementById('detail-vm-name').textContent = c.vm_name || '—';
         document.getElementById('detail-vm-ip').textContent = c.vm_ip || '—';
         document.getElementById('detail-status').innerHTML = statusBadge(c.deployment_status || 'unknown');
-        document.getElementById('detail-flag').textContent = c.flag || '—';
-        document.getElementById('detail-flag-submitted').textContent = c.flag_submitted ? 'Yes' : 'No';
+        // Flag tidak ditampilkan
         document.getElementById('detail-created-at').textContent = formatDate(c.created_at);
         document.getElementById('detail-started-at').textContent = formatDate(c.started_at);
 

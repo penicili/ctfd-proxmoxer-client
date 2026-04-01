@@ -38,7 +38,7 @@ function renderLevelsTable(levels) {
 
 async function loadLevels() {
     try {
-        const data = await API.getLevels();
+        const data = await API.getLevels({ is_active: true });
         renderLevelsTable(data.levels);
     } catch (e) {
         document.getElementById('levels-tbody').innerHTML =

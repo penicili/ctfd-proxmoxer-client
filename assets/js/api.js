@@ -7,9 +7,18 @@ const PLUGIN_URL  = '/admin/plugins/proxmoxer/api';
 
 // ── Helper ───────────────────────────────────────────────────────────────────
 
+function getCsrfToken() {
+    const el = document.querySelector('meta[name="csrf-token"]');
+    return el ? el.getAttribute('content') : '';
+}
+
 async function apiFetch(baseUrl, path, options = {}) {
     const res = await fetch(baseUrl + path, {
-        headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+        headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': getCsrfToken(),
+            ...(options.headers || {}),
+        },
         ...options,
     });
     if (!res.ok) {
