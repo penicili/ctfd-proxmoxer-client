@@ -10,39 +10,60 @@ function difficultyBadge(d) {
     return `<span class="badge badge-${d}">${d}</span>`;
 }
 
+function prepareBadge(status) {
+    const map = {
+        none: { cls: 'secondary', text: 'Not Prepared' },
+        preparing: { cls: 'warning', text: 'Preparing...' },
+        ready: { cls: 'success', text: 'Ready' },
+        error: { cls: 'danger', text: 'Error' },
+    };
+    const s = map[status] || map.none;
+    return `<span class="badge badge-${s.cls}">${s.text}</span>`;
+}
+
 function renderLevelsTable(levels) {
     const tbody = document.getElementById('levels-tbody');
     if (!levels.length) {
-        tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">No levels found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-4">No levels found.</td></tr>';
         return;
     }
-    tbody.innerHTML = levels.map(l => `
+    tbody.innerHTML = levels.map(l => {
+        const prepareBtn = l.source_url && l.prepare_status !== 'preparing'
+            ? `<button class="btn btn-sm btn-outline-info mr-1" onclick="prepareLevel(${l.id})">${l.prepare_status === 'ready' ? 'Re-prepare' : 'Prepare'}</button>`
+            : '';
+        return `
         <tr>
             <td>${l.id}</td>
             <td>${l.name}</td>
             <td><small>${l.category}</small></td>
             <td>${difficultyBadge(l.difficulty)}</td>
             <td>${l.points}</td>
+            <td>${prepareBadge(l.prepare_status)}${l.prepare_status === 'error' ? `<br><small class="text-danger" title="${l.prepare_error || ''}">${(l.prepare_error || '').substring(0, 50)}</small>` : ''}</td>
             <td>
                 <span class="badge badge-${l.is_active ? 'success' : 'secondary'}">
                     ${l.is_active ? 'Active' : 'Inactive'}
                 </span>
             </td>
             <td>
+                ${prepareBtn}
                 <button class="btn btn-sm btn-outline-secondary mr-1" onclick="openEditLevel(${l.id})">Edit</button>
                 <button class="btn btn-sm btn-outline-danger" onclick="confirmDeleteLevel(${l.id}, '${l.name}')">Delete</button>
             </td>
-        </tr>
-    `).join('');
+        </tr>`;
+    }).join('');
 }
 
 async function loadLevels() {
     try {
         const data = await API.getLevels({ is_active: true });
         renderLevelsTable(data.levels);
+        // Auto-poll jika ada level yang sedang preparing
+        if (data.levels.some(l => l.prepare_status === 'preparing')) {
+            startPreparePoll();
+        }
     } catch (e) {
         document.getElementById('levels-tbody').innerHTML =
-            `<tr><td colspan="7" class="text-center text-danger py-4">${e.message}</td></tr>`;
+            `<tr><td colspan="8" class="text-center text-danger py-4">${e.message}</td></tr>`;
     }
 }
 
@@ -94,6 +115,7 @@ async function openEditLevel(id) {
         form.querySelector('[name=difficulty]').value = detail.difficulty;
         form.querySelector('[name=points]').value = detail.points;
         form.querySelector('[name=template_url]').value = detail.template_url || '';
+        form.querySelector('[name=source_url]').value = detail.source_url || '';
         form.querySelector('[name=description]').value = detail.description || '';
 
         $('#modalEditLevel').modal('show');
@@ -134,6 +156,34 @@ async function confirmDeleteLevel(id, name) {
     } catch (e) {
         alert('Failed: ' + e.message);
     }
+}
+
+// ── Prepare Level ───────────────────────────────────────
+
+async function prepareLevel(id) {
+    if (!confirm('Prepare template for this level? This will clone a VM, build the Docker image, and convert to template.')) return;
+    try {
+        await API.prepareLevel(id);
+        loadLevels();
+        startPreparePoll();
+    } catch (e) {
+        alert('Failed: ' + e.message);
+    }
+}
+
+let preparePollInterval = null;
+
+function startPreparePoll() {
+    if (preparePollInterval) return;
+    preparePollInterval = setInterval(async () => {
+        const data = await API.getLevels({ is_active: true });
+        renderLevelsTable(data.levels);
+        const hasPreparing = data.levels.some(l => l.prepare_status === 'preparing');
+        if (!hasPreparing) {
+            clearInterval(preparePollInterval);
+            preparePollInterval = null;
+        }
+    }, 5000);
 }
 
 // ── Init ─────────────────────────────────────────────────

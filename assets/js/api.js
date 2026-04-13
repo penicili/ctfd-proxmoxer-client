@@ -46,6 +46,7 @@ const API = {
     createLevel: (data)        => backendFetch('/levels', { method: 'POST', body: JSON.stringify(data) }),
     updateLevel: (id, data)    => backendFetch(`/levels/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     deleteLevel: (id)          => backendFetch(`/levels/${id}`, { method: 'DELETE' }),
+    prepareLevel: (id)         => backendFetch(`/levels/${id}/prepare`, { method: 'POST' }),
 
     // Challenges
     getChallenges:      (params = {}) => backendFetch('/challenges' + toQuery(params)),
