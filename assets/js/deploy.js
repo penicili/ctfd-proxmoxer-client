@@ -146,7 +146,7 @@ async function pollDeployStatus(challengeId) {
 
         if (status === 'running') {
             stopPolling();
-            await finalizeAndShow(data);
+            showDeploySuccess(data);
             resetDeployForm();
         } else if (status === 'error') {
             stopPolling();
@@ -163,37 +163,11 @@ async function pollDeployStatus(challengeId) {
     }
 }
 
-/**
- * Setelah VM running: panggil plugin API untuk buat entri challenge di CTFd,
- * lalu tampilkan hasilnya.
- */
-async function finalizeAndShow(deployData) {
-    document.getElementById('deploy-progress-text').textContent = 'Creating CTFd challenge entry...';
-
-    try {
-        const ctfd = await API.finalizeChallenge({
-            team_id:           selectedTeam.id,
-            flag:              deployData.flag,
-            level_name:        selectedLevel.name,
-            level_category:    selectedLevel.category,
-            level_points:      selectedLevel.points,
-            level_description: selectedLevel.description,
-            vm_ip:             deployData.vm_ip,
-        });
-
-        showDeploySuccess(deployData, ctfd.ctfd_challenge_id);
-    } catch (err) {
-        // VM sudah jalan tapi gagal buat CTFd entry — tetap tampilkan info VM
-        showDeploySuccess(deployData, null, 'CTFd challenge creation failed: ' + err.message);
-    }
-}
-
-function showDeploySuccess(data, ctfdId, warning = null) {
+function showDeploySuccess(data, warning = null) {
     document.getElementById('deploy-progress').classList.add('d-none');
     document.getElementById('deploy-success-info').classList.remove('d-none');
 
     document.getElementById('result-challenge-id').textContent = data.id;
-    document.getElementById('result-ctfd-id').textContent      = ctfdId ?? '—' + (warning ? ' ⚠️' : '');
     document.getElementById('result-team').textContent         = data.team;
     document.getElementById('result-vm-id').textContent        = data.vm_id  || '—';
     document.getElementById('result-vm-ip').textContent        = data.vm_ip  || '—';

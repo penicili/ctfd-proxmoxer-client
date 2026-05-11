@@ -70,6 +70,24 @@ async function openChallengeDetail(id) {
         document.getElementById('detail-vm-name').textContent = c.vm_name || '—';
         document.getElementById('detail-vm-ip').textContent = c.vm_ip || '—';
         document.getElementById('detail-status').innerHTML = statusBadge(c.deployment_status || 'unknown');
+
+        const accessRow = document.getElementById('detail-access-row');
+        const sshRow    = document.getElementById('detail-ssh-row');
+        if (c.access_http) {
+            const link = document.getElementById('detail-access-http');
+            link.href        = c.access_http;
+            link.textContent = c.access_http;
+            accessRow.classList.remove('d-none');
+        } else {
+            accessRow.classList.add('d-none');
+        }
+        if (c.access_ssh) {
+            document.getElementById('detail-access-ssh').textContent = c.access_ssh;
+            sshRow.classList.remove('d-none');
+        } else {
+            sshRow.classList.add('d-none');
+        }
+
         // Flag tidak ditampilkan
         document.getElementById('detail-created-at').textContent = formatDate(c.created_at);
         document.getElementById('detail-started-at').textContent = formatDate(c.started_at);
